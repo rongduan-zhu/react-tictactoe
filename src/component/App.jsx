@@ -1,10 +1,10 @@
 import React from 'react';
-import { Board } from './Board.jsx'
+import { Game } from './Game.jsx'
 
 export default class App extends React.Component {
     render() {
         return (
-            <Board />
+            <Game />
         );
     }
 }

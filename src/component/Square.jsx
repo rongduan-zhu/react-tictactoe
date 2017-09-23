@@ -2,7 +2,7 @@ import React from 'react';
 
 export function Square(props) {
     return (
-        <button className="square" onClick={props.onClick}>
+        <button key={props.identifier} className="square" onClick={props.onClick} disabled={props.finished}>
             { props.value }
         </button>
     )
