@@ -16,7 +16,9 @@ export class Game extends React.Component {
                 player: 'X',
                 prevMove: -1
             }],
-            winner: ''
+            disabled: false,
+            winner: '',
+            historyToRender: 0
         };
     }
 
@@ -40,13 +42,23 @@ export class Game extends React.Component {
             <div>
                 {this.state.history.slice(1).map((state, i) => {
                     return (
-                        <div key={i}>
+                        <button key={i} onClick={() => this.travelTo(i + 1)}>
                             Player {this.otherPlayer(state.player)} made a move at {this.getPosition(state.prevMove)}
-                        </div>
+                        </button>
                     )
                 })}
             </div>
         );
+    }
+
+    travelTo(i) {
+        if (i < 0 || i >= this.state.history.length) {
+            return;
+        }
+
+        let disabled = !!this.state.winner || i !== this.state.history.length - 1;
+
+        this.setState(Object.assign({}, this.state, { historyToRender: i, disabled: disabled }));
     }
 
     handleClick(id) {
@@ -62,6 +74,7 @@ export class Game extends React.Component {
 
         let winner = this.checkWinner(newSquares);
         let newHistory = this.state.history.slice();
+        let historyToRender = this.state.historyToRender + 1;
 
         newHistory.push({
             squares: newSquares,
@@ -69,7 +82,12 @@ export class Game extends React.Component {
             prevMove: id
         });
 
-        this.setState(Object.assign({}, this.state, { history: newHistory, winner: winner }));
+        this.setState(Object.assign({}, this.state, {
+            history: newHistory,
+            winner: winner,
+            disabled: !!winner,
+            historyToRender: historyToRender
+        }));
     }
 
     checkWinner(squares) {
@@ -100,17 +118,17 @@ export class Game extends React.Component {
     }
 
     render() {
-        let currentState = last(this.state.history);
+        let stateToRender = this.state.history[this.state.historyToRender];
 
         return (
             <div>
                 <div>
-                    <div>Current player is: {currentState.player}</div>
+                    <div>Current player is: {stateToRender.player}</div>
                     <div>Winner is: {this.state.winner}</div>
                     <button onClick={() => this.reset()}>Restart</button>
-                    <Board player={currentState.player}
-                        squares={currentState.squares}
-                        finished={!!this.state.winner}
+                    <Board player={stateToRender.player}
+                        squares={stateToRender.squares}
+                        disabled={this.state.disabled}
                         onClick={id => this.handleClick(id)} />
                 </div>
                 <div>

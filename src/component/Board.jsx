@@ -9,7 +9,7 @@ export class Board extends React.Component {
                 key={id}
                 value={this.props.squares[id]}
                 onClick={() => this.props.onClick(id)}
-                finished={this.props.finished} />
+                disabled={this.props.disabled} />
         );
     }
 
