@@ -2,6 +2,8 @@ import React from 'react';
 import { Board } from './Board.jsx';
 import { last, find } from 'lodash';
 
+import classes from './Game.scss';
+
 export class Game extends React.Component {
     constructor() {
         super();
@@ -42,7 +44,7 @@ export class Game extends React.Component {
             <div>
                 {this.state.history.slice(1).map((state, i) => {
                     return (
-                        <button key={i} onClick={() => this.travelTo(i + 1)}>
+                        <button key={i} onClick={() => this.travelTo(i + 1)} className={classes.gameHistory}>
                             Player {this.otherPlayer(state.player)} made a move at {this.getPosition(state.prevMove)}
                         </button>
                     )
@@ -121,8 +123,8 @@ export class Game extends React.Component {
         let stateToRender = this.state.history[this.state.historyToRender];
 
         return (
-            <div>
-                <div>
+            <div className={classes.gameContainer}>
+                <div className={classes.game}>
                     <div>Current player is: {stateToRender.player}</div>
                     <div>Winner is: {this.state.winner}</div>
                     <button onClick={() => this.reset()}>Restart</button>

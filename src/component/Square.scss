@@ -1,0 +1,14 @@
+.square {
+    $border-size: 1px;
+    $border-color: #000;
+    $size: 32px;
+
+    border: solid 1px $border-color;
+    background: none;
+    height: $size;
+    width: $size;
+
+    &:hover {
+        cursor: pointer;
+    }
+}

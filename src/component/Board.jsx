@@ -1,6 +1,7 @@
 import React from 'react';
 import { Square } from './Square.jsx';
 import { find } from 'lodash';
+import classes from './Board.scss';
 
 export class Board extends React.Component {
     renderSquare(id) {
@@ -15,7 +16,7 @@ export class Board extends React.Component {
 
     renderRow(baseId) {
         return (
-            <div key={baseId} className="row">
+            <div key={baseId} className={classes.row}>
                 {[...Array(3)].map((_, i) => (this.renderSquare(baseId + i)))}
             </div>
         )
@@ -23,7 +24,7 @@ export class Board extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className={classes.board}>
                 {[...Array(3)].map((_, i) => (this.renderRow(i * 3)))}
             </div>
         );
